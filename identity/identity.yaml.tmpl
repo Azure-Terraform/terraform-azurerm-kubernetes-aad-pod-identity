@@ -1,0 +1,31 @@
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+  labels:
+    lnrs.io/run-level: "${flux_run_level}"
+    lnrs.io/run-class: default
+    lnrs.io/cloud-provider: azure
+  annotations:
+    fluxcd.io/ignore: "false"
+spec:
+  type: 0
+  resourceID: ${resource_id}
+  clientID: ${client_id}
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: ${name}-binding
+  namespace: ${namespace}
+  labels:
+    lnrs.io/run-level: "${flux_run_level}"
+    lnrs.io/run-class: default
+    lnrs.io/cloud-provider: azure
+  annotations:
+    fluxcd.io/ignore: "false"
+spec:
+  azureIdentity: ${name}
+  selector: ${name}
