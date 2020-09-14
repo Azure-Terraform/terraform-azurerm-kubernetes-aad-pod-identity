@@ -1,28 +1,27 @@
 data "azurerm_resource_group" "node_rg" {
-  name = var.kubernetes_node_resource_group
+  name = var.aks_node_resource_group
 }
 
 resource "azurerm_role_assignment" "k8s_virtual_machine_contributor" {
   scope                = data.azurerm_resource_group.node_rg.id
   role_definition_name = "Virtual Machine Contributor"
-  principal_id         = var.kubernetes_principal_id
+  principal_id         = var.aks_principal_id
 }
 
 resource "azurerm_role_assignment" "k8s_managed_identity_operator" {
   scope                = data.azurerm_resource_group.node_rg.id
   role_definition_name = "Managed Identity Operator"
-  principal_id         = var.kubernetes_principal_id
+  principal_id         = var.aks_principal_id
 }
 
 resource "azurerm_role_assignment" "additional_managed_identity_operator" {
-  for_each             = toset(var.additional_scopes)
-  scope                = each.key
+  count                = length(var.additional_scopes)
+  scope                = var.additional_scopes[count.index]
   role_definition_name = "Managed Identity Operator"
-  principal_id         = var.kubernetes_principal_id
+  principal_id         = var.aks_principal_id
 }
 
 resource "helm_release" "aad_pod_identity" {
-  count      = (var.install_helm_chart ? 1 : 0)
   depends_on = [azurerm_role_assignment.k8s_virtual_machine_contributor, azurerm_role_assignment.k8s_managed_identity_operator,azurerm_role_assignment.additional_managed_identity_operator]
   name       = "aad-pod-identity"
   namespace  = "kube-system"
