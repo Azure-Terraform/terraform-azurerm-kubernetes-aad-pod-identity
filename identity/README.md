@@ -20,6 +20,7 @@ This module will commit a yaml file creating AzureIdentity and AzureIdentyBindin
 | identity\_client\_id | client id of the managed identity | `string` | n/a | yes |
 | identity\_name | name for Azure identity to be used by AAD | `string` | n/a | yes |
 | identity\_resource\_id | resource id of the managed identity | `string` | n/a | yes |
+| namespace | kubernetes namespace in which to create identity | `string` | `"default"` | no |
 
 ## Outputs
 
