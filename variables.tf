@@ -10,7 +10,7 @@ variable "aks_principal_id" {
 
 variable "additional_scopes" {
   description = "aad pod identity scopes residing outside of AKS MC_resource_group (resource group id or identity id would be a common input)"
-  type        = list(string)
+  type        = set(string)
   default     = []
 }
 
