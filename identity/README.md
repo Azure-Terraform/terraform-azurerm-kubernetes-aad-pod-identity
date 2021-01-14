@@ -26,4 +26,3 @@ This module will commit a yaml file creating AzureIdentity and AzureIdentyBindin
 
 No output.
 <!--- END_TF_DOCS --->
-## Example
