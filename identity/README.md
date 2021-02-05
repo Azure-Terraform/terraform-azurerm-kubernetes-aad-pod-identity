@@ -1,4 +1,4 @@
-# Azure - Kubernetes Pod Identity Module
+# Azure - Kubernetes Identity Module
 
 ## Introduction
 

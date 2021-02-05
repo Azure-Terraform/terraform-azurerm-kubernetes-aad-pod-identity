@@ -1,4 +1,4 @@
-# terraform-azurerm-kubernetes-identity
+# terraform-azurerm-kubernetes-aad-pod-identity
 
 ## Introduction
 

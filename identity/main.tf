@@ -26,4 +26,9 @@ resource "helm_release" "identity" {
     name  = "azureIdentityBinding.selector"
     value = var.identity_name
   }
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
 }

@@ -1,0 +1,7 @@
+rbac:
+  allowAccessToSecrets: false
+%{ if identities != "" ~}
+azureIdentities:
+  ${identities}
+%{ endif ~}
+installCRDs: true
