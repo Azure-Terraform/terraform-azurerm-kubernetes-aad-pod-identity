@@ -6,6 +6,10 @@ This module will commit a yaml file creating AzureIdentity and AzureIdentyBindin
 <br />
 
 <!--- BEGIN_TF_DOCS --->
+## Requirements
+
+No requirements.
+
 ## Providers
 
 | Name | Version |
@@ -15,7 +19,7 @@ This module will commit a yaml file creating AzureIdentity and AzureIdentyBindin
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | helm\_name | name of helm installation (defaults to pod-id-<identity\_name> | `string` | `""` | no |
 | identity\_client\_id | client id of the managed identity | `string` | n/a | yes |
 | identity\_name | name for Azure identity to be used by AAD | `string` | n/a | yes |
@@ -25,4 +29,5 @@ This module will commit a yaml file creating AzureIdentity and AzureIdentyBindin
 ## Outputs
 
 No output.
+
 <!--- END_TF_DOCS --->
