@@ -31,8 +31,6 @@ resource "azurerm_role_assignment" "k8s_managed_identity_operator" {
 }
 
 resource "azurerm_role_assignment" "additional_managed_identity_operator" {
-#  count                = length(var.additional_scopes)
-#  scope                = var.additional_scopes[count.index]
   for_each             = var.additional_scopes
   scope                = each.value
   role_definition_name = "Managed Identity Operator"
