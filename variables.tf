@@ -17,7 +17,7 @@ variable "additional_scopes" {
 variable "helm_chart_version" {
   description = "Azure AD pod identity helm chart version"
   type        = string
-  default     = "2.0.0"
+  default     = "3.0.1"
 }
 
 variable "identities" {

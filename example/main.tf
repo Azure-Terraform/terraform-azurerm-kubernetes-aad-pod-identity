@@ -185,7 +185,7 @@ module "kubernetes" {
 module "aad_pod_identity" {
   source = "../"
 
-  depends_on = [ module.kubernetes ]
+  depends_on = [ module.kubernetes, azurerm_user_assigned_identity.nginx ]
 
   helm_chart_version = "3.0.1"
 
@@ -212,8 +212,30 @@ resource "azurerm_user_assigned_identity" "nginx" {
   tags                = module.metadata.tags
 }
 
-output "values" {
-  value = module.aad_pod_identity.values
+resource "azurerm_role_definition" "blob_reader" {
+  depends_on = [ azurerm_user_assigned_identity.nginx ]
+
+  name        = "blob-reader-${random_string.random.result}-2"
+  #scope       = azurerm_storage_container.content.resource_manager_id
+  scope       = module.resource_group.id
+  description = "This is a role to read from blob storage"
+
+  permissions {
+    data_actions     = ["Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"]
+  }
+
+  assignable_scopes = [
+    #azurerm_storage_container.content.resource_manager_id
+    module.resource_group.id
+  ]
+}
+
+resource "azurerm_role_assignment" "example" {
+  depends_on = [ azurerm_role_definition.blob_reader ]
+
+  scope                = azurerm_storage_container.content.resource_manager_id
+  role_definition_name = azurerm_role_definition.blob_reader.name
+  principal_id         = azurerm_user_assigned_identity.nginx.principal_id
 }
 
 output "aks_login" {

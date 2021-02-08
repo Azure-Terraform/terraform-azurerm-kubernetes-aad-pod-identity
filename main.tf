@@ -2,7 +2,7 @@ locals {
   identities = {
     for identity in var.identities:
       identity.name => {
-        Namespace     = identity.namespace
+        namespace     = identity.namespace
         type          = "0"
         resourceID    = identity.resource_id
         clientID      = identity.client_id
@@ -49,8 +49,7 @@ resource "helm_release" "aad_pod_identity" {
 
   values = [
     templatefile("${path.module}/config/aad-pod-identity.yaml.tmpl", {
-        #identities = chomp(replace(indent(2, yamlencode(local.identities)), "/\"|{|}/", ""))
-        identities = indent(2, yamlencode(local.identities))
+        identities =replace(indent(2, yamlencode(local.identities)), "/\"|{|}/", "")
     }),
     var.additional_yaml_config
   ]
