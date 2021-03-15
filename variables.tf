@@ -34,3 +34,9 @@ variable "identities" {
 variable "additional_yaml_config" {
   default = ""
 }
+
+variable "enable_kubenet_plugin" {
+  description = "Enable feature when AKS cluster is uses Kubenet for CNI, leave default if use AzureCNI"
+  default     = "false"
+  type        = bool
+}
