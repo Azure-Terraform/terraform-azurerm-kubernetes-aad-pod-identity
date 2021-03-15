@@ -20,6 +20,12 @@ variable "helm_chart_version" {
   default     = "3.0.1"
 }
 
+variable "intstall_crds" {
+  description = "Install CRDs"
+  type        = bool
+  default     = true
+}
+
 variable "identities" {
   description = "Azure identites to be configured"
   type        = map(object({
@@ -31,12 +37,12 @@ variable "identities" {
   default     = null
 }
 
-variable "additional_yaml_config" {
-  default = ""
-}
-
 variable "enable_kubenet_plugin" {
   description = "Enable feature when AKS cluster is uses Kubenet for CNI, leave default if use AzureCNI"
   default     = "false"
   type        = bool
+}
+
+variable "additional_yaml_config" {
+  default = ""
 }

@@ -4,4 +4,6 @@ rbac:
 azureIdentities:
   ${identities}
 %{ endif ~}
-installCRDs: true
+installCRDs: ${install_crds}
+nmi:
+  allowNetworkPluginKubenet: ${enable_kubenet}

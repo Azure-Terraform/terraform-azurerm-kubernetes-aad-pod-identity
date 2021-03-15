@@ -45,14 +45,11 @@ resource "helm_release" "aad_pod_identity" {
   chart      = "aad-pod-identity"
   version    = var.helm_chart_version
 
-  set {
-    name  = "nmi.allowNetworkPluginKubenet"
-    value = var.enable_kubenet_plugin
-  }
-
   values = [
     templatefile("${path.module}/config/aad-pod-identity.yaml.tmpl", {
-        identities =replace(indent(2, yamlencode(local.identities)), "/\"|{|}/", "")
+        install_crds   = var.install_crds
+        identities     = replace(indent(2, yamlencode(local.identities)), "/\"|{|}/", "")
+        enable_kubenet = var.enable_kubenet_plugin
     }),
     var.additional_yaml_config
   ]
