@@ -20,7 +20,7 @@ variable "helm_chart_version" {
   default     = "3.0.1"
 }
 
-variable "intstall_crds" {
+variable "install_crds" {
   description = "Install CRDs"
   type        = bool
   default     = true
