@@ -41,7 +41,7 @@ resource "helm_release" "aad_pod_identity" {
   depends_on = [azurerm_role_assignment.k8s_virtual_machine_contributor, azurerm_role_assignment.k8s_managed_identity_operator,azurerm_role_assignment.additional_managed_identity_operator]
   name       = "aad-pod-identity"
   namespace  = "kube-system"
-  repository = "aad-pod-identity"
+  repository = "https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts"
   chart      = "aad-pod-identity"
   version    = var.helm_chart_version
 
