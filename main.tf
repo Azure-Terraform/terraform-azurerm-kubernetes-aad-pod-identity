@@ -21,20 +21,20 @@ data "azurerm_resource_group" "node_rg" {
 resource "azurerm_role_assignment" "k8s_virtual_machine_contributor" {
   scope                = data.azurerm_resource_group.node_rg.id
   role_definition_name = "Virtual Machine Contributor"
-  principal_id         = var.aks_principal_id
+  principal_id         = var.aks_identity
 }
 
 resource "azurerm_role_assignment" "k8s_managed_identity_operator" {
   scope                = data.azurerm_resource_group.node_rg.id
   role_definition_name = "Managed Identity Operator"
-  principal_id         = var.aks_principal_id
+  principal_id         = var.aks_identity
 }
 
 resource "azurerm_role_assignment" "additional_managed_identity_operator" {
   for_each             = var.additional_scopes
   scope                = each.value
   role_definition_name = "Managed Identity Operator"
-  principal_id         = var.aks_principal_id
+  principal_id         = var.aks_identity
 }
 
 resource "helm_release" "aad_pod_identity" {

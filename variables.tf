@@ -3,8 +3,8 @@ variable "aks_node_resource_group" {
   type        = string
 }
 
-variable "aks_principal_id" {
-  description = "principal id used to create AKS cluster"
+variable "aks_identity" {
+  description = "Service principal client_id or kubelet identity client_id. See [here](https://github.com/Azure/aad-pod-identity/blob/master/website/content/en/docs/Getting%20started/role-assignment.md)"
   type        = string
 }
 
