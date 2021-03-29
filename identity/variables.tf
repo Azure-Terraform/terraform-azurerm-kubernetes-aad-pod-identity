@@ -22,5 +22,5 @@ variable "identity_resource_id" {
 variable "helm_name" {
   description = "name of helm installation (defaults to pod-id-<identity_name>"
   type        = string
-  default     = ""
+  default     = null
 }

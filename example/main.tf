@@ -188,7 +188,7 @@ module "aad_pod_identity" {
 
   depends_on = [module.kubernetes, azurerm_user_assigned_identity.nginx]
 
-  helm_chart_version = "3.0.3"
+  enable_kubenet_plugin = true
 
   aks_node_resource_group = module.kubernetes.node_resource_group
   additional_scopes       = { parent_rg = module.resource_group.id }
@@ -203,7 +203,6 @@ module "aad_pod_identity" {
       resource_id = azurerm_user_assigned_identity.nginx.id
     }
   }
-
 }
 
 resource "azurerm_user_assigned_identity" "nginx" {
@@ -212,57 +211,53 @@ resource "azurerm_user_assigned_identity" "nginx" {
   location            = module.metadata.location
   tags                = module.metadata.tags
 }
-#
-#resource "azurerm_role_assignment" "blob_reader" {
-#  depends_on = [ azurerm_user_assigned_identity.nginx ]
-#
-#  scope                = azurerm_storage_container.content.resource_manager_id
-#  role_definition_name = "Storage Blob Data Reader"
-#  principal_id         = azurerm_user_assigned_identity.nginx.principal_id
-#}
-#
-#resource "helm_release" "nginx_blob_test" {
-#  depends_on = [ module.aad_pod_identity, azurerm_role_assignment.blob_reader ]
-#
-#  name       = "nginx-blob-test"
-#  chart      = "./helm_chart"
-#  timeout    = 90
-#
-#  set {
-#    name  = "identity"
-#    value = azurerm_user_assigned_identity.nginx.name
-#  }
-#
-#  set {
-#    name  = "url"
-#    value = azurerm_storage_blob.custom.url
-#  }
-#}
-#
-#data "kubernetes_service" "nginx" {
-#  depends_on = [helm_release.nginx_blob_test] 
-#  metadata {
-#    name = "nginx"
-#  }
-#}
-#
-#resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
-#  name                        = "AllowNginx"
-#  priority                    = 100
-#  direction                   = "Inbound"
-#  access                      = "Allow"
-#  protocol                    = "tcp"
-#  source_port_range           = "*"
-#  destination_port_range      = "80"
-#  source_address_prefix       = "Internet"
-#  destination_address_prefix  = data.kubernetes_service.nginx.load_balancer_ingress.0.ip
-#  resource_group_name         = module.resource_group.name
-#  network_security_group_name = module.virtual_network.subnet_nsg_names["iaas-public"]
-#}
-#
-#output "nginx_url" {
-#  value = "http://${data.kubernetes_service.nginx.load_balancer_ingress.0.ip}"
-#}
+
+resource "azurerm_role_assignment" "blob_reader" {
+  depends_on = [ azurerm_user_assigned_identity.nginx ]
+
+  scope                = azurerm_storage_container.content.resource_manager_id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_user_assigned_identity.nginx.principal_id
+}
+
+resource "helm_release" "nginx_blob_test" {
+  depends_on = [ module.aad_pod_identity, azurerm_role_assignment.blob_reader ]
+
+  name       = "nginx-blob-test"
+  chart      = "./helm_chart"
+  timeout    = 90
+
+  values = [<<-EOF
+  identity: ${azurerm_user_assigned_identity.nginx.name}
+  url: ${azurerm_user_assigned_identity.nginx.name}
+  EOF 
+  ]
+}
+
+data "kubernetes_service" "nginx" {
+  depends_on = [helm_release.nginx_blob_test] 
+  metadata {
+    name = "nginx"
+  }
+}
+
+resource "azurerm_network_security_rule" "ingress_public_allow_nginx" {
+  name                        = "AllowNginx"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "Internet"
+  destination_address_prefix  = data.kubernetes_service.nginx.load_balancer_ingress.0.ip
+  resource_group_name         = module.resource_group.name
+  network_security_group_name = module.virtual_network.subnet_nsg_names["iaas-public"]
+}
+
+output "nginx_url" {
+  value = "http://${data.kubernetes_service.nginx.load_balancer_ingress.0.ip}"
+}
 
 output "aks_login" {
   value = "az aks get-credentials --name ${module.kubernetes.name} --resource-group ${module.resource_group.name}"

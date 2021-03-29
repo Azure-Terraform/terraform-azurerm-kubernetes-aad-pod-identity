@@ -1,9 +1,0 @@
-rbac:
-  allowAccessToSecrets: false
-%{ if identities != "" ~}
-azureIdentities:
-  ${identities}
-%{ endif ~}
-installCRDs: ${install_crds}
-nmi:
-  allowNetworkPluginKubenet: ${enable_kubenet}

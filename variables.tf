@@ -4,7 +4,7 @@ variable "aks_node_resource_group" {
 }
 
 variable "aks_identity" {
-  description = "Service principal client_id or kubelet identity client_id. See [here](https://github.com/Azure/aad-pod-identity/blob/master/website/content/en/docs/Getting%20started/role-assignment.md)"
+  description = "Service principal client_id or kubelet identity client_id. See [here](https://github.com/Azure/aad-pod-identity/blob/master/website/content/en/docs/Getting%20started/role-assignment.md)."
   type        = string
 }
 
@@ -17,7 +17,7 @@ variable "additional_scopes" {
 variable "helm_chart_version" {
   description = "Azure AD pod identity helm chart version"
   type        = string
-  default     = "3.0.1"
+  default     = "3.0.3"
 }
 
 variable "install_crds" {
@@ -28,19 +28,19 @@ variable "install_crds" {
 
 variable "identities" {
   description = "Azure identites to be configured"
-  type        = map(object({
-                  namespace   = string 
-                  name        = string
-                  client_id   = string
-                  resource_id = string
-                }))
-  default     = null
+  type = map(object({
+    namespace   = string
+    name        = string
+    client_id   = string
+    resource_id = string
+  }))
+  default = null
 }
 
 variable "enable_kubenet_plugin" {
   description = "Enable feature when AKS cluster is uses Kubenet for CNI, leave default if use AzureCNI"
-  default     = "false"
   type        = bool
+  default     = false
 }
 
 variable "additional_yaml_config" {
