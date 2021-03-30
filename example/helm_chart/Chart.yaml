@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart to install a test copying a file from a blob.
+name: nginx-blob-test
+version: 0.1.0

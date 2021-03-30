@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    aadpodidbinding: {{ .Values.identity }}
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+        aadpodidbinding: {{ .Values.identity }}
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          command: ["/bin/bash", "/startup.sh"]
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          volumeMounts:
+            - name: scripts
+              mountPath: /startup.sh
+              subPath: startup
+      volumes:
+        - name: scripts
+          configMap:
+            name: scripts
