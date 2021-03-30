@@ -11,15 +11,16 @@ This module will install/configure the helm chart in AKS.
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13.0 |
-| helm | >= 2.0.0 |
+| terraform | >= 0.14.8 |
+| azurerm | >= 2.51.0 |
+| helm | >= 2.0.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | n/a |
-| helm | >= 2.0.0 |
+| azurerm | >= 2.51.0 |
+| helm | >= 2.0.3 |
 
 ## Inputs
 
@@ -29,9 +30,9 @@ This module will install/configure the helm chart in AKS.
 | additional\_yaml\_config | n/a | `string` | `""` | no |
 | aks\_identity | Service principal client\_id or kubelet identity client\_id. See [here](https://github.com/Azure/aad-pod-identity/blob/master/website/content/en/docs/Getting%20started/role-assignment.md). | `string` | n/a | yes |
 | aks\_node\_resource\_group | resource group created by AKS | `string` | n/a | yes |
-| enable\_kubenet\_plugin | Enable feature when AKS cluster is uses Kubenet for CNI, leave default if use AzureCNI | `bool` | `false` | no |
+| enable\_kubenet\_plugin | Enable feature when AKS cluster uses Kubenet network plugin, leave default if use AzureCNI | `bool` | `false` | no |
 | helm\_chart\_version | Azure AD pod identity helm chart version | `string` | `"3.0.3"` | no |
-| identities | Azure identites to be configured | <pre>map(object({<br>    namespace   = string<br>    name        = string<br>    client_id   = string<br>    resource_id = string<br>  }))</pre> | `null` | no |
+| identities | Azure identities to be configured | <pre>map(object({<br>    namespace   = string<br>    name        = string<br>    client_id   = string<br>    resource_id = string<br>  }))</pre> | `null` | no |
 | install\_crds | Install CRDs | `bool` | `true` | no |
 
 ## Outputs
