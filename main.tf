@@ -39,7 +39,7 @@ resource "helm_release" "aad_pod_identity" {
 
 module "identity" {
   source   = "./identity"
-  for_each = var.identities
+  for_each = (var.identities == null ? {} : var.identities)
 
   namespace = each.value.namespace
 
