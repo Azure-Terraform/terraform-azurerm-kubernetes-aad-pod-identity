@@ -27,7 +27,7 @@ variable "install_crds" {
 }
 
 variable "identities" {
-  description = "Azure identites to be configured"
+  description = "Azure identities to be configured"
   type = map(object({
     namespace   = string
     name        = string
@@ -38,7 +38,7 @@ variable "identities" {
 }
 
 variable "enable_kubenet_plugin" {
-  description = "Enable feature when AKS cluster is uses Kubenet for CNI, leave default if use AzureCNI"
+  description = "Enable feature when AKS cluster uses Kubenet network plugin, leave default if use AzureCNI"
   type        = bool
   default     = false
 }
