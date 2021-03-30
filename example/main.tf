@@ -227,10 +227,10 @@ resource "helm_release" "nginx_blob_test" {
   chart      = "./helm_chart"
   timeout    = 90
 
-  values = [<<-EOF
-  identity: ${azurerm_user_assigned_identity.nginx.name}
-  url: ${azurerm_user_assigned_identity.nginx.name}
-  EOF 
+  values = [<<-EOT
+    identity: ${azurerm_user_assigned_identity.nginx.name}
+    url: ${azurerm_user_assigned_identity.nginx.name}
+    EOT 
   ]
 }
 
