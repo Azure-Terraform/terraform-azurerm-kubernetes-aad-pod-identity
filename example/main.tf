@@ -229,7 +229,7 @@ resource "helm_release" "nginx_blob_test" {
 
   values = [<<-EOT
     identity: ${azurerm_user_assigned_identity.nginx.name}
-    url: ${azurerm_user_assigned_identity.nginx.name}
+    url: ${azurerm_storage_blob.custom.url}
     EOT 
   ]
 }
