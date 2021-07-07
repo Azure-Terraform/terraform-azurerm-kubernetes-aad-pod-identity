@@ -26,6 +26,12 @@ variable "install_crds" {
   default     = true
 }
 
+variable "create_namespace" {
+  description = "Create the namespace for the identity if it doesn't yet exist"
+  type        = bool
+  default     = true
+}
+
 variable "identities" {
   description = "Azure identities to be configured"
   type = map(object({

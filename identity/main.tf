@@ -3,6 +3,7 @@ resource "helm_release" "identity" {
   chart = "${path.module}/chart"
 
   namespace = var.namespace
+  create_namespace = var.create_namespace
 
   values = [<<-EOT
   azureIdentity:

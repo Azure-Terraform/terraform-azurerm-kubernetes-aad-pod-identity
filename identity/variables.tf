@@ -9,6 +9,12 @@ variable "namespace" {
   default     = "default"
 }
 
+variable "create_namespace" {
+  description = "Create the namespace for the identity if it doesn't yet exist"
+  type        = bool
+  default     = true
+}
+
 variable "identity_client_id" {
   description = "client id of the managed identity"
   type        = string
