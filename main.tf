@@ -24,6 +24,7 @@ resource "helm_release" "aad_pod_identity" {
   repository = "https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts"
   chart      = "aad-pod-identity"
   version    = var.helm_chart_version
+  create_namespace = var.create_namespace
   #verify     = false
 
   values = [<<-EOF
@@ -43,6 +44,7 @@ module "identity" {
   for_each = (var.identities == null ? {} : var.identities)
 
   namespace = each.value.namespace
+  create_namespace = var.create_namespace
 
   identity_name        = each.value.name
   identity_client_id   = each.value.client_id
