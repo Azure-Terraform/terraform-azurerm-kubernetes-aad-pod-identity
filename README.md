@@ -30,6 +30,7 @@ This module will install/configure the helm chart in AKS.
 | additional\_yaml\_config | n/a | `string` | `""` | no |
 | aks\_identity | Service principal client\_id or kubelet identity client\_id. See [here](https://github.com/Azure/aad-pod-identity/blob/master/website/content/en/docs/Getting%20started/role-assignment.md). | `string` | n/a | yes |
 | aks\_node\_resource\_group | resource group created by AKS | `string` | n/a | yes |
+| create\_namespace | Create the namespace for the identity if it doesn't yet exist | `bool` | `true` | no |
 | enable\_kubenet\_plugin | Enable feature when AKS cluster uses Kubenet network plugin, leave default if use AzureCNI | `bool` | `false` | no |
 | helm\_chart\_version | Azure AD pod identity helm chart version | `string` | `"3.0.3"` | no |
 | identities | Azure identities to be configured | <pre>map(object({<br>    namespace   = string<br>    name        = string<br>    client_id   = string<br>    resource_id = string<br>  }))</pre> | `null` | no |
