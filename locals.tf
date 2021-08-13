@@ -1,4 +1,4 @@
-locals = {
+locals {
     ##
     # If CRDs are installed and we are going to create AzureIdentity right away
     #  set a pause time between installation of pod identity and the creation
