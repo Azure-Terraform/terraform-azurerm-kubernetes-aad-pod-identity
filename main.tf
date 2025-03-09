@@ -37,9 +37,18 @@ resource "helm_release" "aad_pod_identity" {
   EOF
   ]
 }
+##
+# Give a little time after pod identity completes for the custom
+#  CRDs (AzureIdentity) to be registered in K8s so that any 
+#  subsequent identity creatation will succeed.
+resource "time_sleep" "wait_for_pod_identity" {
+  depends_on = [ helm_release.aad_pod_identity ]
+
+  create_duration = "${local.identity_creation_quiessence_time_in_secs}s"
+}
 
 module "identity" {
-  depends_on = [ helm_release.aad_pod_identity ]
+  depends_on = [ time_sleep.wait_for_pod_identity ]
   source   = "./identity"
   for_each = (var.identities == null ? {} : var.identities)
 
