@@ -1,3 +1,5 @@
+> **Deprecated:** This repository is deprecated and is not recommended for new deployments.
+
 # terraform-azurerm-kubernetes-aad-pod-identity
 
 ## Introduction
